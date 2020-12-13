@@ -1,0 +1,37 @@
+from math import *
+from tkinter import *
+
+f = input('f(x)=')
+
+T=Tk()
+
+screen = Canvas(T, width = 1000, height = 1000, bg = "white")
+screen.create_line(500,1000,500,0,width=2,arrow=LAST) 
+screen.create_line(0,500,1000,500,width=2,arrow=LAST) 
+
+x1 = -500;
+
+for i in range(16000):
+	if (i % 800 == 0):
+		k = x1 + (1 / 16) * i        
+		if (k != 500 and k!=-500):
+			screen.create_line(k + 500, 497, k + 500, 503, width = 0.5, fill = 'black')
+			screen.create_text(k + 510, 510, text = str(int(k)), fill="red", font=("Helvectica", "10"))
+		if (k != 0 and k!=-500):
+			screen.create_line(497, k + 500, 503, k + 500, width = 0.5, fill = 'black')
+			screen.create_text(482, k + 500, text = str(-int(k)), fill="red", font=("Helvectica", "10"))
+	try:
+		x = x1 + (1 / 16) * i
+		x2 = x1 + (1 / 16) * i + 1 / 16    
+		new_f = f.replace('x', str(x))
+		y = -eval(new_f) + 500
+		new_f = f.replace('x', str(x2))
+		y2 = -eval(new_f) + 500        
+		x += 500
+		x2 += 500        
+		screen.create_line(x, y, x2, y2, fill = 'black')
+	except:
+		pass
+screen.pack()
+T.mainloop()
+
