@@ -1,0 +1,55 @@
+from math import *
+from tkinter import *
+from sympy import Symbol, Derivative
+
+f = input('f(x)=')
+x= Symbol('x')
+n = int(input('n='))
+z=0
+g=0
+while (z<=n):
+	g=g+float(Derivative(f, x, z).doit().subs({x:0}))*(x**z)/factorial(z)
+	z+=1
+print(g)
+x= Symbol('x')
+T=Tk()
+
+screen = Canvas(T, width = 1000, height = 1000, bg = "white")
+screen.create_line(500,1000,500,0,width=2,arrow=LAST) 
+screen.create_line(0,500,1000,500,width=2,arrow=LAST) 
+
+x1 = -500;
+
+for i in range(16000):
+	if (i % 800 == 0):
+		k = x1 + (1 / 16) * i        
+		if (k != 500 and k!=-500):
+			screen.create_line(k + 500, 497, k + 500, 503, width = 0.5, fill = 'black')
+			screen.create_text(k + 510, 510, text = str(int(k)), fill="red", font=("Helvectica", "10"))
+		if (k != 0 and k!=-500):
+			screen.create_line(497, k + 500, 503, k + 500, width = 0.5, fill = 'black')
+			screen.create_text(482, k + 500, text = str(-int(k)), fill="red", font=("Helvectica", "10"))
+	try:
+		x2 = x1 + (1 / 16) * i
+		x3 = x1 + (1 / 16) * i + (1/16)    
+		new_f = f.replace('x', str(x2))
+		y2 = -eval(new_f) + 500
+		new_f = f.replace('x', str(x3))
+		y3 = -eval(new_f) + 500
+		z=0
+		g=0
+		h=0        
+		while (z<=n):
+			g=g+float(Derivative(f, x, z).doit().subs({x:0}))*(x2**z)/factorial(z)
+			h=h+float(Derivative(f, x, z).doit().subs({x:0}))*(x3**z)/factorial(z)
+			z+=1
+		g=-g+500
+		h=-h+500
+		x2 += 500
+		x3 += 500  
+		screen.create_line(x2, y2, x3, y3, width = 1, fill = 'black')
+		screen.create_line(x2, g, x3, h, fill = 'green')
+	except:
+		pass
+screen.pack()
+T.mainloop()
